@@ -1,5 +1,6 @@
 #include "linklist.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 void DeleteXRecursion(LinkList& L, ElemType x){ //递归删除x
 	LNode* p; //p指向待删除结点
@@ -52,4 +53,58 @@ void DeleteXTail(LinkList& L, ElemType x) {//非递归删除x，尾插法
 	}
 
 	r->next = NULL; //置重构之后的链表表尾为null
+}
+
+void PrintReversedList(LinkList& L) { //链表逆置，递归法
+	if (L->next != NULL)
+		PrintReversedList(L->next); //递归
+	if (L != NULL)
+		printf("%d ", L->data); //输出
+	//else return;
+}
+
+void ReverseList(LinkList& L) { //原地逆置链表，头插法
+	LNode* p, * q;
+	p = L->next; L->next = NULL;
+
+	while (p != NULL) {
+		q = p->next;
+		p->next = L->next; //将每个结点依次插入链表头部
+		L->next = p;
+		p = q;
+	}
+}
+
+void ReverseListM(LinkList& L) { //原地逆置链表，指针反转法
+	LNode* pre, * p, * q; //三指针顺序依次为pre p q，规定pre之前的结点均已逆置
+
+	p = L->next, q = p->next; 
+	p->next = NULL;
+
+	while (q != NULL) {
+		pre = p; //依次继续遍历
+		p = q;
+		q = q->next;
+		p->next = pre; //指针反转
+	}
+	L->next = p; //处理头结点
+}
+
+void DeleteMin(LinkList& L) { //删除最小值
+	LNode* minpre,* min;
+	LNode* pre,* p;
+
+	minpre = L, pre = L;
+	min = minpre->next, p = pre->next;
+
+	while (p != NULL) { //一次遍历，找出最小值
+		if (p->data < min->data) {
+			min = p; minpre = pre;
+		}
+		p = p->next;
+		pre = pre->next;
+	}
+
+	minpre->next = min->next; //删除最小值
+	free(min);
 }

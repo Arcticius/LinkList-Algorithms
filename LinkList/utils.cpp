@@ -43,3 +43,7 @@ void PrintList(LinkList L) {
 		p = p->next;
 	}
 }
+
+bool IsEmpty(LinkList L) {
+	return L->next == NULL ? true : false;
+}
