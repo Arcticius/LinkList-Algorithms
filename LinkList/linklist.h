@@ -1,0 +1,16 @@
+#pragma once
+
+typedef int ElemType;
+
+typedef struct LNode {
+	ElemType data;
+	struct LNode * next;
+}LNode, *LinkList;
+
+LinkList ListHeadInsert(LinkList& L);
+LinkList ListTailInsert(LinkList& L);
+void PrintList(LinkList L);
+
+void DeleteXRecursion(LinkList& L, ElemType x); //µÝ¹éÉ¾³ýx
+void DeleteX(LinkList& L, ElemType x); //·ÇµÝ¹éÉ¾³ýx£¬Í¨ÓÃËã·¨
+void DeleteXTail(LinkList& L, ElemType x); //·ÇµÝ¹éÉ¾³ýx£¬Î²²å·¨

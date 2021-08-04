@@ -1,0 +1,6 @@
+﻿  LinkList.cpp
+D:\HNU\4\数据结构\链表\LinkList\LinkList\LinkList.cpp(7,21): warning C4101: “p”: 未引用的局部变量
+  solutions.cpp
+  utils.cpp
+  正在生成代码...
+  LinkList.vcxproj -> D:\HNU\4\数据结构\链表\LinkList\Debug\LinkList.exe
