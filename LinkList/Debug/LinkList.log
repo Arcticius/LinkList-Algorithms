@@ -1,5 +1,8 @@
 ﻿  LinkList.cpp
-D:\HNU\4\数据结构\链表\LinkList\LinkList\LinkList.cpp(7,21): warning C4101: “p”: 未引用的局部变量
+D:\HNU\4\数据结构\链表\LinkList\LinkList\LinkList.cpp(7,11): warning C4101: “L”: 未引用的局部变量
+D:\HNU\4\数据结构\链表\LinkList\LinkList\LinkList.cpp(7,22): warning C4101: “L3”: 未引用的局部变量
+D:\HNU\4\数据结构\链表\LinkList\LinkList\LinkList.cpp(7,33): warning C4101: “p”: 未引用的局部变量
+D:\HNU\4\数据结构\链表\LinkList\LinkList\LinkList.cpp(7,38): warning C4101: “common”: 未引用的局部变量
   solutions.cpp
   utils.cpp
   正在生成代码...

@@ -47,3 +47,27 @@ void PrintList(LinkList L) {
 bool IsEmpty(LinkList L) {
 	return L->next == NULL ? true : false;
 }
+
+int Length(LinkList L) {
+	int length = 0;
+	LNode* p = L->next;
+
+	while (p != NULL) {
+		length++;
+		p = p->next;
+	}
+
+	return length;
+}
+
+LNode* GetLastNode(LinkList L) {
+	LNode* p = L->next;
+
+	if (p == NULL)
+		return L;
+	else {
+		while (p->next != NULL)
+			p = p->next;
+		return p;
+	}
+}
