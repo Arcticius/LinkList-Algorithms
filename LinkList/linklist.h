@@ -26,3 +26,8 @@ void DeleteRange(LinkList& L, ElemType min, ElemType max); //É¾³ı½éÓÚminºÍmaxµÄ½
 LNode* SearchCommon(LinkList L1, LinkList L2); //Ñ°ÕÒ¹«¹²½áµã
 void PrintSort(LinkList& L); //ÉıĞò´òÓ¡½áµã²¢ÒÀ´ÎÉ¾³ı½áµã
 LinkList SplitOdevity(LinkList& L1); //½«Á´±í°´ÕÕ½áµãĞòºÅÆæÅ¼²ğ·Ö
+LinkList SplitOdevityReversed(LinkList& L1); //½«Á´±í°´ÕÕ½áµãĞòºÅÆæÅ¼²ğ·Ö£¬²ğ·Ö³öµÄÁ´±íĞèÊÇÄæĞò
+void DeleteSameNode(LinkList& L); //É¾³ıµİÔöÁ´±íµÄÏàµÈ½áµã
+void MergeList(LinkList& L1, LinkList& L2); //Ô­µØºÏ²¢Á½µİÔöÁ´±í£¬ºÏ²¢ºóµÄÁ´±íÓ¦Îªµİ¼õ
+LinkList SearchSameNodes(LinkList& L1, LinkList& L2); //Ñ°ÕÒÁ½µİÔöÁ´±íµÄÏàµÈ½áµã£¬¹¹ÔìĞÂÁ´±í
+void Union(LinkList& L1, LinkList& L2); //Ñ°ÕÒÁ½µİÔöÁ´±íµÄ½»¼¯£¬´æÈëL1ÖĞ

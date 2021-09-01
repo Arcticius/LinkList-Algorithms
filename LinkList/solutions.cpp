@@ -226,3 +226,136 @@ LinkList SplitOdevity(LinkList& L1) { //将链表按照结点序号奇偶拆分
 	return L2;
 }
 
+LinkList SplitOdevityReversed(LinkList& L1) { //将链表按照结点序号奇偶拆分，拆分出的链表需是逆序
+	LinkList L2 = (LinkList)malloc(sizeof(LNode)); //创建新链表L2
+	L2->next = NULL;
+
+	LNode* rear1 = L1; //rear1始终指向L1表尾
+	LNode* p = L1->next, * q = NULL; //q为p的后继
+
+	while (p != NULL) {
+		rear1->next = p; rear1 = p;//p此处为L1结点，将p链到L1表尾
+		p = p->next; //p此处为L2结点
+		if (p != NULL)
+			q = p->next; //记录p的后继，防止断链
+		p->next = L2->next; L2->next = p; //头插法将p插入链表L2
+		p = q; //p此处为L1结点
+	}
+
+	rear1->next = NULL;
+
+	return L2;
+}
+
+void DeleteSameNode(LinkList& L) {  //删除递增链表的相等结点
+	LNode* p, * q; //p指针遍历链表，q为p的后继
+
+	p = L->next;
+
+	if (p == NULL) //空表
+		return;
+	while (p != NULL) {
+		q = p->next;
+
+		if (q != NULL && p->data == q->data) { //p和后继相同，删除q，直到后继与p不同为止
+			p->next = q->next;
+			free(q);
+		}
+		else //p和后继不相同，继续遍历
+			p = p->next;
+			
+	}
+}
+
+void MergeList(LinkList& L1, LinkList& L2) { //原地合并两递增链表，合并后的链表应为递减
+	LNode* p1, * p2, * r; 
+	p1 = L1->next; p2 = L2->next;
+
+	L1->next = NULL; //规定合并后仅剩L1，因结果为递减，采用头插法
+	while (p1 && p2) { //p1、p2均非空时
+		if (p1->data <= p2->data) { //p1较小
+			r = p1->next; //记录p1后继，防止断链
+			p1->next = L1->next; L1->next = p1; //将p1头插至L1
+			p1 = r;
+		}
+		else { //p2较小
+			r = p2->next; //记录p2后继，防止断链
+			p2->next = L1->next; L1->next = p2; //将p2头插至L1
+			p2 = r;
+		}
+	}
+
+	p2 = p1 != NULL ? p1 : p2; //若L1较长，则p2已空，将L1剩余结点赋给p2
+
+	while (p2) { //将剩余结点依次头插至L1
+		r = p2->next;
+		p2->next = L1->next; L1->next = p2;
+		p2 = r;
+	}
+
+	free(L2); //释放L2头结点
+}
+
+LinkList SearchSameNodes(LinkList& L1, LinkList& L2) { //寻找两递增链表的相等结点，构造新链表
+	LinkList L3 = (LinkList)malloc(sizeof(LNode)); //相等结点构成的新链表
+	LNode* p1, * p2, * p3, *same;
+	p1 = L1->next; p2 = L2->next; p3 = L3;
+	
+	while (p1 != NULL && p2 != NULL) {
+		if (p1->data < p2->data) //p1较小，后移
+			p1 = p1->next;
+		else if (p2->data < p1->data) //p2较小，后移
+			p2 = p2->next;
+		else { //p1、p2相等，找到相等结点，尾插入L3
+			same = (LNode*)malloc(sizeof(LNode));
+			same->data = p1->data;
+			p3->next = same; p3 = same; //尾插
+			p1 = p1->next; p2 = p2->next; //同时后移
+		}
+	}
+
+	p3->next = NULL;
+	return L3;
+}
+
+void Union(LinkList& L1, LinkList& L2) { //寻找两递增链表的交集，存入L1中
+	LNode* p1, * p2, * p, * temp;
+	p1 = L1->next; p2 = L2->next;
+	p = L1;
+
+	while (p1 && p2) { //p1、p2均非空时 
+		if (p1->data < p2->data) { //p1较小，后移
+			temp = p1;
+			p1 = p1->next;
+			free(temp);
+		}
+		else if (p2->data < p1->data) { //p1较小，后移
+			temp = p2;
+			p2 = p2->next;
+			free(temp);
+		}
+		else { //p1、p2相等，找到交集元素，尾插入L1
+			p->next = p1; p = p1; //尾插
+
+			p1 = p1->next;
+
+			temp = p2; //释放L2结点
+			p2 = p2->next;
+			free(temp);
+		}
+	}
+
+	while (p1) { //L1还有剩余结点
+		temp = p1;
+		p1 = p1->next;
+		free(temp);
+	} 
+	while (p2) { //L2还有剩余结点
+		temp = p2;
+		p2 = p2->next;
+		free(temp);
+	}
+
+	p->next = NULL;
+	free(L2); //释放L2头结点
+}
