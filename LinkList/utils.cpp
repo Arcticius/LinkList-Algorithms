@@ -141,3 +141,32 @@ void PrintCircularList(DLinkList L) {
 		p = p->next;
 	}
 }
+
+DFLinkList ListTailInsert(DFLinkList& L) {
+	int x;
+
+	L = (DFLinkList)malloc(sizeof(DFNode));
+	DFNode* s, * r = L; //rÎª±íÎ²Ö¸Õë
+	scanf_s("%d", &x);
+	while (x != 9999) {
+		s = (DFNode*)malloc(sizeof(DFNode));
+		s->data = x;
+		s->freq = 0;
+		r->next = s;
+		s->prior = r;
+		r = s;
+		scanf_s("%d", &x);
+	}
+	r->next = NULL; L->prior = NULL;
+
+	return L;
+}
+
+void PrintList(DFLinkList L) {
+	DFNode* p;
+	p = L->next;
+	while (p != NULL) {
+		printf("%d,%d ", p->data, p->freq);
+		p = p->next;
+	}
+}

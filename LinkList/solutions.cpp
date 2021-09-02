@@ -381,3 +381,78 @@ bool IsPattern(LinkList L1, LinkList L2) { //判断L2是否为L1的连续子序列
 	else 
 		return false;
 }
+
+bool IsSymmetrical(DLinkList& L) { //判断循环双链表是否对称
+	DNode* p, * q; //两指针分别从前后遍历
+	p = L->next; q = L->prior;
+
+	while (p != q && q->next != p) { //循环终止条件：奇数时p、q指向同一节点；偶数时p、q相邻
+		if (p->data == q->data) {
+			p = p->next;
+			q = q->prior;
+		}
+		else
+			return false;
+	}
+
+	return true;
+}
+
+void LinkCircularLists(LinkList& L1, LinkList& L2) { //将循环链表L2链接到循环链表L1之后
+	LNode* last1, * last2;
+
+	last1 = L1; last2 = L2;
+	while (last1->next != L1) //找出两链表的尾结点
+		last1 = last1->next;
+	while (last2->next != L2)
+		last2 = last2->next;
+
+	last1->next = L2->next;
+	last2->next = L1;
+}
+
+void DeleteAllMins(LinkList& L) { //依次输出并删除循环链表的最小值
+	LNode* p, * pre, * min, * minpre;
+	while (L->next != L) { //循环链表非空判定
+		p = L->next, pre = L;
+		min = p, minpre = pre;
+		while (p != L) { //遍历依次链表，寻找最小值
+			if (p->data < min->data) {
+				min = p; minpre = pre;
+			}
+			p = p->next; pre = pre->next;
+		}
+
+		printf("%d ", min->data); //输出此次循环的最小值
+		minpre->next = min->next; //删除该结点
+		free(min);
+	}
+	free(L); //释放头结点
+}
+
+DFNode* Locate(DFLinkList& L, ElemType x) { //查找x，成功时将频度增1，并将结点按频度降序排列
+	DFNode* p, * pre; //pre为p的前驱
+
+	p = L->next;
+	while (p != NULL && p->data != x) //遍历链表，寻找x
+		p = p->next;
+
+	if (p == NULL) //未找到x
+		return NULL;
+	else { //找到x，更新频度并重新排列
+		p->freq++; //更新频度
+
+		if (p->next != NULL) //摘下p结点
+			p->next->prior = p->prior;
+		p->prior->next = p->next;
+
+		pre = p->prior;
+		while (pre != L && pre->freq <= p->freq) //寻找插入位置
+			pre = pre->prior;
+		
+		p->next = pre->next; p->prior = pre; //插入p结点
+		pre->next->prior = p; pre->next = p;
+	}
+
+	return p;
+}
