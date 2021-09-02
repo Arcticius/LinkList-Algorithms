@@ -5,7 +5,12 @@ typedef int ElemType;
 typedef struct LNode {
 	ElemType data;
 	struct LNode * next;
-}LNode, *LinkList;
+}LNode, * LinkList;
+
+typedef struct DNode {
+	ElemType data;
+	struct DNode* prior, * next;
+}DNode, * DLinkList;
 
 LinkList ListHeadInsert(LinkList& L);
 LinkList ListTailInsert(LinkList& L);
@@ -13,6 +18,16 @@ void PrintList(LinkList L);
 bool IsEmpty(LinkList L);
 int Length(LinkList L);
 LNode* GetLastNode(LinkList L);
+
+DLinkList ListTailInsert(DLinkList& L);
+void PrintList(DLinkList L);
+DNode* GetLastNode(DLinkList L);
+
+void Circularize(LinkList& L);
+void Circularize(DLinkList& L);
+
+void PrintCircularList(LinkList L);
+void PrintCircularList(DLinkList L);
 
 void DeleteXRecursion(LinkList& L, ElemType x); //µ›πÈ…æ≥˝x
 void DeleteX(LinkList& L, ElemType x); //∑«µ›πÈ…æ≥˝x£¨Õ®”√À„∑®
