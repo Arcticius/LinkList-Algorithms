@@ -359,3 +359,25 @@ void Union(LinkList& L1, LinkList& L2) { //寻找两递增链表的交集，存入L1中
 	p->next = NULL;
 	free(L2); //释放L2头结点
 }
+
+bool IsPattern(LinkList L1, LinkList L2) { //判断L2是否为L1的连续子序列
+	LNode* p1, * p2, * start; //start记录L1每次遍历的起始位置
+	p1 = L1->next; p2 = L2->next; start = p1;
+
+	while (p1 && p2) {
+		if (p1->data == p2->data) { //对应相同
+			p1 = p1->next;
+			p2 = p2->next;
+		} 
+		else { //对应不相同，p1回退到起始位置的后继，p2回退到起始位置
+			start = start->next;
+			p1 = start;
+			p2 = L2->next;
+		}
+	}
+
+	if (p2 == NULL) //L2已全部遍历，说明L2是子序列
+		return true;
+	else 
+		return false;
+}

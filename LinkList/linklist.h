@@ -31,3 +31,4 @@ void DeleteSameNode(LinkList& L); //删除递增链表的相等结点
 void MergeList(LinkList& L1, LinkList& L2); //原地合并两递增链表，合并后的链表应为递减
 LinkList SearchSameNodes(LinkList& L1, LinkList& L2); //寻找两递增链表的相等结点，构造新链表
 void Union(LinkList& L1, LinkList& L2); //寻找两递增链表的交集，存入L1中
+bool IsPattern(LinkList L1, LinkList L2); //判断L2是否为L1的连续子序列
