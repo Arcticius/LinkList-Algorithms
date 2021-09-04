@@ -456,3 +456,111 @@ DFNode* Locate(DFLinkList& L, ElemType x) { //查找x，成功时将频度增1，并将结点按
 
 	return p;
 }
+
+bool SearchLastK(LinkList L, ElemType k) { //查找倒数第k个元素，尽可能高效，双指针法
+	LNode* p, * q; //双指针
+	p = q = L->next; //初始时均指向第一个节点
+	int count = 0; //计数器
+
+	while (p != NULL) { //采用双指针法，仅需遍历一次链表
+		if (count < k) //若count<k，则仅移动p
+			count++;
+		else //count=k时，q开始后移，则p遍历完时，q恰好位于倒数第k个元素上
+			q = q->next;
+
+		p = p->next;
+	}
+
+	if (count < k) //不存在倒数第k个元素
+		return false;
+	else {
+		printf("%d \n", q->data);
+		return true;
+	}
+}
+
+void DeleteAllSameNode(LinkList& L, ElemType n) { //删除乱序链表的相等（含绝对值）结点，辅助数组法
+	//链表元素的值不超过n
+	LNode* p, * r;
+	p = L;
+
+	ElemType* arr, m; //辅助数组
+	arr = (ElemType*)malloc(sizeof(ElemType) * (n + 1)); //申请n+1个位置作为辅助数组，采用下标法
+
+	for (int i = 0; i < n + 1; i++) //初始化数组元素为0，表示未访问
+		*(arr + i) = 0;
+
+	while (p->next != NULL) { //遍历一次链表
+		m = p->next->data > 0 ? p->next->data : -p->next->data; //取绝对值
+		if (*(arr + m) == 0) { //m未访问，数组对应位置置1，保留第一次出现的位置
+			*(arr + m) = 1;
+			p = p->next;
+		}
+		else { //m已访问，删除
+			r = p->next;
+			p->next = r->next;
+			free(r);
+		}	
+	}
+
+	free(arr); //释放辅助数组
+}
+
+LNode* FindLoopStart(LinkList L) { //查找带有环的链表的环入口，双指针法
+	LNode* slow, * fast; //设置两指针，每次循环slow走一步，fast走两步
+	slow = fast = L;
+
+	while (slow != NULL && fast->next != NULL) {
+		slow = slow->next; 
+		fast = fast->next->next;
+		if (slow == fast) //若slow与fast相遇，则有环
+			break;
+	}
+
+	if (slow == NULL || fast->next == NULL) //若slow与fast不相遇，则不存在环
+		return NULL;
+
+	/*设头结点到环入口的距离为a，相遇点距离环入口的距离为x，环长为r，相遇时fast已经绕了n圈，则
+		2(a + x) = a + nr + x
+	即a = nr - x，头结点到环入口的距离a等于n倍环长减去x。
+	设置两指针分别从头结点、相遇点后移，则再相遇点即为环入口*/
+	LNode* p, * q; 
+	p = L; q = slow;
+	while (p != q) {
+		p = p->next;
+		q = q->next;
+	}
+	return p;
+}
+
+void RealignList(LinkList& L) { //将链表{a1, a2, ..., an}重新排列为{a1, an, a2, an-1, ...}，双指针+头插法
+	LNode* p, * q, * r, * s;
+	p = q = L;
+
+	while (q->next != NULL) { //寻找中间节点
+		p = p->next; //p走一步，q走两步
+		q = q->next->next; 
+	}
+
+	q = p->next; //p所指结点为中间节点，q为后半段链表的首节点
+
+	p->next = NULL; //头插法逆置后半段链表
+	while (q != NULL) {
+		r = q->next;
+		q->next = p->next;
+		p->next = q;
+		q = r;
+	}
+
+	s = L->next; //s为前半段链表的首节点
+	q = p->next; //q为后半段链表的首节点
+
+	p->next = NULL; //将后半段链表插至前半段指定位置
+	while (q != NULL) {
+		r = q->next;
+		q->next = s->next;
+		s->next = q;
+		s = q->next; 
+		q = r;
+	}
+}

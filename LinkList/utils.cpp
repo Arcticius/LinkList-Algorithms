@@ -170,3 +170,17 @@ void PrintList(DFLinkList L) {
 		p = p->next;
 	}
 }
+
+LNode* LocateX(LinkList L, ElemType x) {
+	LNode* p;
+	p = L->next;
+
+	while (p != NULL) {
+		if (p->data == x)
+			return p;
+		p = p->next;
+	}
+		
+
+	return NULL;
+}
